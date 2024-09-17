@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visão Geral</title>
+    <link rel="stylesheet" href="/css/clientes.css">
+</head>
+<body>
+    <header>
+        <h1>Lista de Clientes</h1>
+        <div class="button-container">
+            <button class="header-button" type="button" onclick="window.location.href='/cliente'">Cadastrar Cliente</button>
+            <button class="header-button" type="button" onclick="window.location.href='/login'">Logout</button>
+        </div>
+    </header>
+    
+    <% if (clientes.length === 0) { %> <!-- Verifica se não há clientes -->
+        <p>Não há clientes cadastrados!</p>
+    <% } else { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Endereço</th>
+                    <th>CPF</th>
+                    <th>RG</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% clientes.forEach(cliente => { %>
+                <tr>
+                    <td><%= cliente.nome %></td>
+                    <td><%= cliente.endereco %></td>
+                    <td><%= cliente.cpf %></td>
+                    <td><%= cliente.rg %></td>
+                    <td><%= cliente.telefone %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</body>
+</html>
