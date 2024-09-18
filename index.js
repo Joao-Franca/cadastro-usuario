@@ -12,6 +12,12 @@ app.set("view engine", "ejs");
 
 app.use(express.static('public'));
 
+
+
+
+
+
+
 //Rota para exibir nosso formulário de login
 app.get("/login", (req, res) => {
   res.render("login");
