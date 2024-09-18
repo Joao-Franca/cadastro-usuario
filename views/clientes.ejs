@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visão Geral</title>
     <link rel="stylesheet" href="/css/clientes.css">
-</head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- Font Awesome CDN -->
 <body>
     <header>
         <h1>Lista de Clientes</h1>
@@ -26,20 +26,66 @@
                     <th>CPF</th>
                     <th>RG</th>
                     <th>Telefone</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <% clientes.forEach(cliente => { %>
-                <tr>
+                <!-- Linha para visualização dos dados -->
+                <tr id="row-<%= cliente.id %>">
                     <td><%= cliente.nome %></td>
                     <td><%= cliente.endereco %></td>
                     <td><%= cliente.cpf %></td>
                     <td><%= cliente.rg %></td>
                     <td><%= cliente.telefone %></td>
+                    <td>
+                        <!-- Botão de Editar -->
+                        <button class="edit-button" onclick="showEditForm(<%= cliente.id %>)">
+                            <i class="fas fa-pencil-alt"></i> <!-- Ícone de lápis -->
+                        </button>
+                    
+                        <!-- Botão de Deletar -->
+                        <form action="/clientes/<%= cliente.id %>/delete" method="POST" style="display:inline;">
+                            <button class="delete-button" type="submit">
+                                <i class="fas fa-trash"></i> <!-- Ícone de lixeira -->
+                            </button>
+                        </form>
+                    </td>
+                    
+
+                <!-- Formulário para editar o cliente -->
+                <tr id="editForm-<%= cliente.id %>" style="display: none;">
+                    <td colspan="6">
+                        <form action="/clientes/<%= cliente.id %>/update" method="POST">
+                            <input type="text" name="nome" value="<%= cliente.nome %>" maxlength="100">
+                            <input type="text" name="endereco" value="<%= cliente.endereco %>" maxlength="100">
+                            <input type="text" name="cpf" value="<%= cliente.cpf %>" maxlength="14">
+                            <input type="text" name="rg" value="<%= cliente.rg %>" maxlength="20">
+                            <input type="text" name="telefone" value="<%= cliente.telefone %>" maxlength="15">
+                            <button class="save-button" type="submit">Salvar</button>
+                            <button class="cancel-button" type="button" onclick="hideEditForm(<%= cliente.id %>)">Cancelar</button>
+                        </form>
+                    </td>
                 </tr>
                 <% }) %>
             </tbody>
         </table>
     <% } %>
+
+    <script>
+        function showEditForm(id) {
+            const form = document.getElementById(`editForm-${id}`);
+            const row = document.getElementById(`row-${id}`);
+            form.style.display = 'table-row'; // Exibe o formulário de edição
+            row.style.display = 'none';   // Esconde a linha atual de visualização
+        }
+
+        function hideEditForm(id) {
+            const form = document.getElementById(`editForm-${id}`);
+            const row = document.getElementById(`row-${id}`);
+            form.style.display = 'none';  // Esconde o formulário de edição
+            row.style.display = 'table-row';  // Mostra a linha novamente
+        }
+    </script>
 </body>
 </html>
